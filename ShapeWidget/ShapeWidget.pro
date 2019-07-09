@@ -6,7 +6,7 @@
 
 TARGET = ShapeWidget
 TEMPLATE = app
-
+QT       += core gui network
 
 SOURCES += main.cpp\
         shapewidget.cpp \

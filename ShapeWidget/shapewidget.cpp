@@ -7,6 +7,7 @@
 ShapeWidget::ShapeWidget(QWidget *parent)//
     : QWidget(parent)
 {
+    isPlayed=1;
     pix=new QPixmap();
     pix->load(":/images/p1.png",0,Qt::AvoidDither|Qt::ThresholdDither|Qt::ThresholdAlphaDither);
     resize(pix->size());
@@ -14,9 +15,13 @@ ShapeWidget::ShapeWidget(QWidget *parent)//
 
     count=1;
     timer=new QTimer(this);
-    timer->start(100);
+    timer->start(30);
     connect(timer,SIGNAL(timeout()),this,SLOT(changePicture()));//
 
+    //network receiver
+    receiver = new QUdpSocket(this);
+    receiver->bind(45454,QUdpSocket::ShareAddress);
+    connect(receiver,SIGNAL(readyRead()),this,SLOT(processPendingDatagram()));
 }
 
 ShapeWidget::~ShapeWidget()
@@ -26,24 +31,11 @@ ShapeWidget::~ShapeWidget()
 
 void ShapeWidget::changePicture()//
 {
-    QString picName;
-    count=count+1;
-    if(count>5) count=1;
-    switch(count)
-    {
-    case 1:picName=":/images/p1.png";break;
-    case 2:picName=":/images/p2.png";break;
-    case 3:picName=":/images/p3.png";break;
-    case 4:picName=":/images/p4.png";break;
-    case 5:picName=":/images/p5.png";break;
-    default:break;
+    if(isPlayed==0){
+        return;
     }
-    grab();
-    picName="./image_bmp.bmp";
-    //QImage *image = new QImage();
     QImage* image=grab();
 
-    image->load(picName);
     *pix=QPixmap::fromImage(*image);
     //pix->load(picName,0,Qt::AvoidDither|Qt::ThresholdDither|Qt::ThresholdAlphaDither);
     //pix->set]
@@ -51,7 +43,35 @@ void ShapeWidget::changePicture()//
     setMask(QBitmap(pix->mask()));//
     update();
 }
+void ShapeWidget::processPendingDatagram(){
+    printf("receive message\n");
+    while(receiver->hasPendingDatagrams())
+    {
+        QByteArray datagram;
+        datagram.resize(receiver->pendingDatagramSize());
+        receiver->readDatagram(datagram.data(),datagram.size());
+        char * mess=datagram.data();
+        if(strcmp(mess,"play")==0){
+            isPlayed=1;
+            printf("continue\n");
+        }
+        else if(strcmp(mess,"pause")==0){
+            isPlayed=0;
+            printf("paused\n");
+        }
+        else if(strcmp(mess,"exit")==0){
+            close();
+            exit(0);
+        }
 
+        else{
+            continue;
+        }
+        /*printf("none else\n");
+        printf("mess:%s",mess);
+        exit(0);*/
+    }
+}
 void ShapeWidget::mousePressEvent(QMouseEvent *event)
 {
     if(event->button()==Qt::LeftButton)

@@ -4,7 +4,7 @@
 #include <QtGui/QWidget>
 #include<QTimer>
 #include<QPixmap>
-
+#include<QtNetwork>
 class ShapeWidget : public QWidget
 {
     Q_OBJECT
@@ -22,8 +22,11 @@ private:
     QTimer *timer;
     QPixmap *pix;
     int count;
+    QUdpSocket *receiver;
+    int isPlayed;
 private slots:
     void changePicture();
+    void processPendingDatagram();
 };
 
 #endif // SHAPEWIDGET_H
