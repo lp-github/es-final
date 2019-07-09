@@ -266,7 +266,7 @@ int close_v4l2(void)
 QImage* grab(void)
 {
 
-    FILE * fp1,* fp2;
+    //FILE * fp1,* fp2;
 
     BITMAPFILEHEADER   bf;
     BITMAPINFOHEADER   bi;
@@ -277,20 +277,20 @@ QImage* grab(void)
     }
     image=new QImage(width,height,QImage::Format_RGB888);
 
-    fp1 = fopen(BMP, "wb");
+    /*fp1 = fopen(BMP, "wb");
     if(!fp1)
 	{
 		printf("open "BMP"error\n");
         return image;
 	}
 	
-	fp2 = fopen(YUV, "wb");
+    fp2 = fopen(YUV, "wb");
     if(!fp2)
 	{
 		printf("open "YUV"error\n");
         return image;
 	}
-
+    */
 	if(init_v4l2() == FALSE) 
 	{
         return image;
@@ -317,19 +317,19 @@ QImage* grab(void)
     bf.bfOffBits = 54;
     
     v4l2_grab();
-    fwrite(buffers[0].start, 640*480*2, 1, fp2);
-    printf("save "YUV"OK\n");
+    //fwrite(buffers[0].start, 640*480*2, 1, fp2);
+    //printf("save "YUV"OK\n");
     
     //yuyv_2_rgb888();
     yuyv_2_rgb888(image);
-    fwrite(&bf, 14, 1, fp1);
-    fwrite(&bi, 40, 1, fp1);    
-    fwrite(frame_buffer, bi.biSizeImage, 1, fp1);
-    printf("save "BMP"OK\n");
+    //fwrite(&bf, 14, 1, fp1);
+    //fwrite(&bi, 40, 1, fp1);
+    //fwrite(frame_buffer, bi.biSizeImage, 1, fp1);
+    //printf("save "BMP"OK\n");
     
     
-    fclose(fp1);
-    fclose(fp2);
+    //fclose(fp1);
+    //fclose(fp2);
     close_v4l2();
     
     return image;
