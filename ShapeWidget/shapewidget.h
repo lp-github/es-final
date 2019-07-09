@@ -23,10 +23,12 @@ private:
     QPixmap *pix;
     int count;
     QUdpSocket *receiver;
+    QUdpSocket *sender;
     int isPlayed;
 private slots:
     void changePicture();
     void processPendingDatagram();
+    void sendPicture(QImage* image);
 };
 
 #endif // SHAPEWIDGET_H

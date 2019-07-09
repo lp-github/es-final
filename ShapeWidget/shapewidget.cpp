@@ -22,6 +22,9 @@ ShapeWidget::ShapeWidget(QWidget *parent)//
     receiver = new QUdpSocket(this);
     receiver->bind(45454,QUdpSocket::ShareAddress);
     connect(receiver,SIGNAL(readyRead()),this,SLOT(processPendingDatagram()));
+
+    //network sender
+    sender=new QUdpSocket(this);
 }
 
 ShapeWidget::~ShapeWidget()
@@ -35,7 +38,7 @@ void ShapeWidget::changePicture()//
         return;
     }
     QImage* image=grab();
-
+    sendPicture(image);
     *pix=QPixmap::fromImage(*image);
     //pix->load(picName,0,Qt::AvoidDither|Qt::ThresholdDither|Qt::ThresholdAlphaDither);
     //pix->set]
@@ -63,7 +66,9 @@ void ShapeWidget::processPendingDatagram(){
             close();
             exit(0);
         }
+        else if(strcmp(mess,"push")){
 
+        }
         else{
             continue;
         }
@@ -72,6 +77,28 @@ void ShapeWidget::processPendingDatagram(){
         exit(0);*/
     }
 }
+void ShapeWidget::sendPicture(QImage *image){
+    for( quint16 y=0; y<image->height(); ++y )
+    {
+        QByteArray buffer( 6+3*image->width(), 0 );
+        QDataStream stream( &buffer, QIODevice::WriteOnly );
+        stream.setVersion( QDataStream::Qt_4_0 );
+
+        stream << (quint16)image->width() << (quint16)image->height();
+        stream << y;
+        for( int x=0; x<image->width(); ++x )
+        {
+          QRgb rgb = image->pixel( x, y );
+
+          stream << (quint8)qRed( rgb ) << (quint8)qGreen( rgb ) << (quint8)qBlue( rgb );
+
+        }
+         sender->writeDatagram( buffer, QHostAddress::Broadcast, 9988 );
+    }
+
+
+}
+
 void ShapeWidget::mousePressEvent(QMouseEvent *event)
 {
     if(event->button()==Qt::LeftButton)

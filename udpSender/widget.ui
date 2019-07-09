@@ -52,19 +52,6 @@
     <string>TextLabel</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="receive">
-   <property name="geometry">
-    <rect>
-     <x>400</x>
-     <y>280</y>
-     <width>161</width>
-     <height>27</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>receive</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="count">
    <property name="geometry">
     <rect>
@@ -76,6 +63,19 @@
    </property>
    <property name="text">
     <string>0</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="receive">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>290</y>
+     <width>161</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>receive</string>
    </property>
   </widget>
  </widget>

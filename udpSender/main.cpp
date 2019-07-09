@@ -3,6 +3,7 @@
 
 int main(int argc, char *argv[])
 {
+    printf("a");
     QApplication a(argc, argv);
     Widget w;
     w.show();

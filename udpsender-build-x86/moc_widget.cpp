@@ -1,13 +1,13 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'widget.h'
 **
-** Created: Tue Jul 9 19:37:23 2019
+** Created: Tue Jul 9 19:25:55 2019
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.3)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "widget.h"
+#include "../udpSender/widget.h"
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'widget.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 63

@@ -13,6 +13,7 @@ Widget::Widget(QWidget *parent) :
 {
     ui->setupUi(this);
     label = this->findChild<QLabel*>("picture");
+    image = 0;
     sender = new QUdpSocket(this);
     receiver = new QUdpSocket(this);
     receiver->bind(9988);
@@ -23,6 +24,7 @@ Widget::~Widget()
 {
     delete ui;
 }
+
 
 void Widget::on_receive_clicked()
 {
@@ -70,39 +72,43 @@ void Widget::on_exit_clicked()
     sender->writeDatagram(datagram.data(),datagram.size(),QHostAddress::Broadcast,45454);
 }
 
+
 void Widget::dataPending(){
+
     while( receiver->hasPendingDatagrams() )
     {
-       QByteArray buffer( receiver->pendingDatagramSize(), 0 );
-       receiver->readDatagram( buffer.data(), buffer.size() );
+        QByteArray buffer( receiver->pendingDatagramSize(), 0 );
+        receiver->readDatagram( buffer.data(), buffer.size() );
 
-       QDataStream stream( buffer );
-       stream.setVersion( QDataStream::Qt_4_0 );
+        QDataStream stream( buffer );
+        stream.setVersion( QDataStream::Qt_4_0 );
 
-       quint16 width, height, y;
-       stream >> width >> height >> y;
+        quint16 width, height, y;
+        stream >> width >> height >> y;
 
-       if( !image )
-         image = new QImage( width, height, QImage::Format_RGB32 );
-       else if( image->width() != width || image->height() != height )
-       {
-         delete image;
-         image = new QImage( width, height, QImage::Format_RGB32 );
-       }
+        if( !image )
+          image = new QImage( width, height, QImage::Format_RGB32 );
+        else if( image->width() != width || image->height() != height )
+        {
+          delete image;
+          image = new QImage( width, height, QImage::Format_RGB32 );
+        }
 
-       for( int x=0; x<width; ++x )
-       {
-         quint8 red, green, blue;
-         stream >> red >> green >> blue;
+        for( int x=0; x<width; ++x )
+        {
+          quint8 red, green, blue;
+          stream >> red >> green >> blue;
 
-         image->setPixel( x, y, qRgb( red, green, blue ) );
-       }
-     }
-     QPixmap pixmap = QPixmap::fromImage(*image);
+          image->setPixel( x, y, qRgb( red, green, blue ) );
+        }
+    }
+
+    QPixmap pixmap = QPixmap::fromImage(*image);
      pixmap.scaled(label->size(), Qt::KeepAspectRatio);
      label->setScaledContents(true);
      label->setPixmap(pixmap);
      //label->resize( image->size() );
+
 
 }
 

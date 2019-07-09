@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'shapewidget.h'
 **
-** Created: Tue Jul 9 18:59:08 2019
+** Created: Tue Jul 9 20:27:44 2019
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_ShapeWidget[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -33,13 +33,15 @@ static const uint qt_meta_data_ShapeWidget[] = {
  // slots: signature, parameters, type, tag, flags
       13,   12,   12,   12, 0x08,
       29,   12,   12,   12, 0x08,
+      60,   54,   12,   12, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_ShapeWidget[] = {
     "ShapeWidget\0\0changePicture()\0"
-    "processPendingDatagram()\0"
+    "processPendingDatagram()\0image\0"
+    "sendPicture(QImage*)\0"
 };
 
 void ShapeWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -50,10 +52,10 @@ void ShapeWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         switch (_id) {
         case 0: _t->changePicture(); break;
         case 1: _t->processPendingDatagram(); break;
+        case 2: _t->sendPicture((*reinterpret_cast< QImage*(*)>(_a[1]))); break;
         default: ;
         }
     }
-    Q_UNUSED(_a);
 }
 
 const QMetaObjectExtraData ShapeWidget::staticMetaObjectExtraData = {
@@ -88,9 +90,9 @@ int ShapeWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 3;
     }
     return _id;
 }
