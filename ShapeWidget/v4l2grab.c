@@ -15,8 +15,8 @@
 #define  FALSE	0
 
 #define FILE_VIDEO 	"/dev/video0"
-#define BMP      	"/usr/image_bmp.bmp"
-#define YUV			"/usr/image_yuv.yuv"
+#define BMP      	"./image_bmp.bmp"
+#define YUV			"./image_yuv.yuv"
 
 #define  IMAGEWIDTH    640
 #define  IMAGEHEIGHT   480
@@ -248,6 +248,10 @@ int yuyv_2_rgb888(void)
 
 int close_v4l2(void)
 {
+    unsigned int i = 0;
+    for(i = 0; i < 4;i++){
+        munmap(buffers[i].start,buffers[i].length);
+    }
      if(fd != -1) 
      {
          close(fd);

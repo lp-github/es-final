@@ -11,10 +11,10 @@ ShapeWidget::ShapeWidget(QWidget *parent)//
     pix->load(":/images/p1.png",0,Qt::AvoidDither|Qt::ThresholdDither|Qt::ThresholdAlphaDither);
     resize(pix->size());
     setMask(QBitmap(pix->mask()));
-    grab();
+
     count=1;
     timer=new QTimer(this);
-    timer->start(500);
+    timer->start(2000);
     connect(timer,SIGNAL(timeout()),this,SLOT(changePicture()));//
 
 }
@@ -38,7 +38,12 @@ void ShapeWidget::changePicture()//
     case 5:picName=":/images/p5.png";break;
     default:break;
     }
-    pix->load(picName,0,Qt::AvoidDither|Qt::ThresholdDither|Qt::ThresholdAlphaDither);
+    grab();
+    QImage *image = new QImage();
+    image->load(picName);
+    *pix=QPixmap::fromImage(*image);
+    //pix->load(picName,0,Qt::AvoidDither|Qt::ThresholdDither|Qt::ThresholdAlphaDither);
+    //pix->set]
     resize(pix->size());
     setMask(QBitmap(pix->mask()));//
     update();
