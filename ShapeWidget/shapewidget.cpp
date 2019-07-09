@@ -14,7 +14,7 @@ ShapeWidget::ShapeWidget(QWidget *parent)//
 
     count=1;
     timer=new QTimer(this);
-    timer->start(2000);
+    timer->start(100);
     connect(timer,SIGNAL(timeout()),this,SLOT(changePicture()));//
 
 }
@@ -39,7 +39,10 @@ void ShapeWidget::changePicture()//
     default:break;
     }
     grab();
-    QImage *image = new QImage();
+    picName="./image_bmp.bmp";
+    //QImage *image = new QImage();
+    QImage* image=grab();
+
     image->load(picName);
     *pix=QPixmap::fromImage(*image);
     //pix->load(picName,0,Qt::AvoidDither|Qt::ThresholdDither|Qt::ThresholdAlphaDither);

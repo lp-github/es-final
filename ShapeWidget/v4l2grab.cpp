@@ -133,7 +133,7 @@ int v4l2_grab(void)
 	}
 
 	//mmap for buffers
-	buffers = malloc(req.count*sizeof (*buffers));
+    buffers = (struct buffer*)malloc(req.count*sizeof (*buffers));
 	if (!buffers) 
 	{
 		printf ("Out of memory\n");
@@ -179,14 +179,14 @@ int v4l2_grab(void)
 }
 
 
-int yuyv_2_rgb888(void)
+int yuyv_2_rgb888(QImage* image)
 {
 	int           i,j;
     unsigned char y1,y2,u,v;
     int r1,g1,b1,r2,g2,b2;
     char * pointer;
     
-	pointer = buffers[0].start;
+    pointer = (char*)buffers[0].start;
 	
     for(i=0;i<480;i++)
     {
@@ -241,6 +241,8 @@ int yuyv_2_rgb888(void)
     		*(frame_buffer + ((480-1-i)*320+j)*6 + 3) = (unsigned char)b2;
     		*(frame_buffer + ((480-1-i)*320+j)*6 + 4) = (unsigned char)g2;
     		*(frame_buffer + ((480-1-i)*320+j)*6 + 5) = (unsigned char)r2;
+            image->setPixel(j*2,i,qRgb(r1,g1,b1));
+            image->setPixel(j*2+1,i,qRgb(r2,g2,b2));
     	}
     }
     printf("change to RGB OK \n");
@@ -261,32 +263,37 @@ int close_v4l2(void)
 }
 
 
-int grab(void)
+QImage* grab(void)
 {
 
     FILE * fp1,* fp2;
 
     BITMAPFILEHEADER   bf;
     BITMAPINFOHEADER   bi;
-   
+    quint16 width=IMAGEWIDTH,height=IMAGEHEIGHT;
+    QImage* image;
+    if(image){
+        delete image;
+    }
+    image=new QImage(width,height,QImage::Format_RGB888);
 
     fp1 = fopen(BMP, "wb");
     if(!fp1)
 	{
 		printf("open "BMP"error\n");
-		return(FALSE);
+        return image;
 	}
 	
 	fp2 = fopen(YUV, "wb");
     if(!fp2)
 	{
 		printf("open "YUV"error\n");
-		return(FALSE);
+        return image;
 	}
 
 	if(init_v4l2() == FALSE) 
 	{
-     	return(FALSE);
+        return image;
 	}
 	
 	//Set BITMAPINFOHEADER
@@ -313,7 +320,8 @@ int grab(void)
     fwrite(buffers[0].start, 640*480*2, 1, fp2);
     printf("save "YUV"OK\n");
     
-    yuyv_2_rgb888();
+    //yuyv_2_rgb888();
+    yuyv_2_rgb888(image);
     fwrite(&bf, 14, 1, fp1);
     fwrite(&bi, 40, 1, fp1);    
     fwrite(frame_buffer, bi.biSizeImage, 1, fp1);
@@ -324,5 +332,5 @@ int grab(void)
     fclose(fp2);
     close_v4l2();
     
-    return(TRUE);
+    return image;
 }

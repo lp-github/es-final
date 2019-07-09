@@ -10,7 +10,7 @@
 
 
 #include <stdio.h>
-
+#include<QImage>
  
 
 //typedef enum { FALSE = 0, TRUE = 1, OK = 2} BOOL;
@@ -77,7 +77,7 @@ extern "C" {     /* Make sure we have C-declarations in C++ programs */
 //if successful return 1,or else return 0
 int openVideo();
 int closeVideo();
-int grab();
+QImage* grab();
 //data 用来存储数据的空间, size空间大小
 void getVideoData(unsigned char *data, int size);
  

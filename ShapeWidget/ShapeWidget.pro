@@ -10,7 +10,7 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         shapewidget.cpp \
-    v4l2grab.c
+    v4l2grab.cpp
 
 HEADERS  += shapewidget.h \
     v4l2grab.h
