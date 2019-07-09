@@ -9,9 +9,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        shapewidget.cpp
+        shapewidget.cpp \
+    v4l2grab.c
 
-HEADERS  += shapewidget.h
+HEADERS  += shapewidget.h \
+    v4l2grab.h
 
 RESOURCES += \
     res.qrc

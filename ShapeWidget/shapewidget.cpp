@@ -3,7 +3,7 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QBitmap>
-
+#include "v4l2grab.h"
 ShapeWidget::ShapeWidget(QWidget *parent)//
     : QWidget(parent)
 {
@@ -11,7 +11,7 @@ ShapeWidget::ShapeWidget(QWidget *parent)//
     pix->load(":/images/p1.png",0,Qt::AvoidDither|Qt::ThresholdDither|Qt::ThresholdAlphaDither);
     resize(pix->size());
     setMask(QBitmap(pix->mask()));
-
+    grab();
     count=1;
     timer=new QTimer(this);
     timer->start(500);
