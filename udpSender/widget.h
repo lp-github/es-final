@@ -6,7 +6,7 @@
 #include <QPixmap>
 #include <QImage>
 #include <QLabel>
-
+#include<vector>
 namespace Ui {
 class Widget;
 }
@@ -18,7 +18,7 @@ class Widget : public QWidget
 public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
-    
+
 private slots:
     /*void on_pushButton_clicked();
     void on_exitButton_clicked();*/
@@ -39,10 +39,11 @@ private:
     QUdpSocket *receiver;
     QImage *image;
     QLabel *label;
-
     int play=1;
     int exit=0;
     int rev_count = 0;
+
+
 };
 
 #endif // WIDGET_H
