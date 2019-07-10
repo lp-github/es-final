@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget.ui'
 **
-** Created: Tue Jul 9 19:25:54 2019
+** Created: Wed Jul 10 10:27:06 2019
 **      by: Qt User Interface Compiler version 4.8.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -27,8 +27,8 @@ public:
     QPushButton *playButton;
     QPushButton *exit;
     QLabel *picture;
-    QPushButton *receive;
     QLabel *count;
+    QPushButton *receive;
 
     void setupUi(QWidget *Widget)
     {
@@ -44,12 +44,12 @@ public:
         picture = new QLabel(Widget);
         picture->setObjectName(QString::fromUtf8("picture"));
         picture->setGeometry(QRect(20, 70, 351, 351));
-        receive = new QPushButton(Widget);
-        receive->setObjectName(QString::fromUtf8("receive"));
-        receive->setGeometry(QRect(400, 280, 161, 27));
         count = new QLabel(Widget);
         count->setObjectName(QString::fromUtf8("count"));
         count->setGeometry(QRect(520, 30, 31, 21));
+        receive = new QPushButton(Widget);
+        receive->setObjectName(QString::fromUtf8("receive"));
+        receive->setGeometry(QRect(400, 290, 161, 27));
 
         retranslateUi(Widget);
 
@@ -62,8 +62,8 @@ public:
         playButton->setText(QApplication::translate("Widget", "pause", 0, QApplication::UnicodeUTF8));
         exit->setText(QApplication::translate("Widget", "exit", 0, QApplication::UnicodeUTF8));
         picture->setText(QApplication::translate("Widget", "TextLabel", 0, QApplication::UnicodeUTF8));
-        receive->setText(QApplication::translate("Widget", "receive", 0, QApplication::UnicodeUTF8));
         count->setText(QApplication::translate("Widget", "0", 0, QApplication::UnicodeUTF8));
+        receive->setText(QApplication::translate("Widget", "save", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

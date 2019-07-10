@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-TARGET = ShapeWidget
+TARGET = demo5
 TEMPLATE = app
 QT       += core gui network
 

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'widget.ui'
 **
-** Created: Tue Jul 9 19:38:35 2019
+** Created: Wed Jul 10 10:39:16 2019
 **      by: Qt User Interface Compiler version 4.8.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -63,7 +63,7 @@ public:
         exit->setText(QApplication::translate("Widget", "exit", 0, QApplication::UnicodeUTF8));
         picture->setText(QApplication::translate("Widget", "TextLabel", 0, QApplication::UnicodeUTF8));
         count->setText(QApplication::translate("Widget", "0", 0, QApplication::UnicodeUTF8));
-        receive->setText(QApplication::translate("Widget", "receive", 0, QApplication::UnicodeUTF8));
+        receive->setText(QApplication::translate("Widget", "save", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

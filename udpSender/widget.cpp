@@ -11,12 +11,13 @@ Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
 {
+    printf("constructor\n");
     ui->setupUi(this);
     label = this->findChild<QLabel*>("picture");
     image = 0;
     sender = new QUdpSocket(this);
     receiver = new QUdpSocket(this);
-    receiver->bind(9988);
+    receiver->bind(22333);
     connect(receiver, SIGNAL(readyRead()), this, SLOT(dataPending()));
 }
 
@@ -28,13 +29,7 @@ Widget::~Widget()
 
 void Widget::on_receive_clicked()
 {
-    image = 0;
-    QByteArray datagram="push";
-    rev_count++;
-    char str[5];
-    sprintf(str, "%d", rev_count);
-    ui->count->setText(str);
-    sender->writeDatagram(datagram.data(),datagram.size(),QHostAddress::Broadcast,45454);
+    image->save("./grab.bmp", "bmp", 100);
 }
 
 void Widget::on_playButton_clicked()
@@ -57,24 +52,16 @@ void Widget::on_playButton_clicked()
 
 void Widget::on_exit_clicked()
 {
+
     printf("exit button clicked\n");
     exit=1-exit;
     QByteArray datagram="exit";
-    /*
-    if(exit==0){
-        printf("exit state change to 0: \n");
-        datagram="exit";
-    }
-    else{
-        printf("exit state change to 1: \n");
-        datagram="pl";
-    }*/
+
     sender->writeDatagram(datagram.data(),datagram.size(),QHostAddress::Broadcast,45454);
 }
 
 
 void Widget::dataPending(){
-
     while( receiver->hasPendingDatagrams() )
     {
         QByteArray buffer( receiver->pendingDatagramSize(), 0 );
@@ -101,6 +88,7 @@ void Widget::dataPending(){
 
           image->setPixel( x, y, qRgb( red, green, blue ) );
         }
+
     }
 
     QPixmap pixmap = QPixmap::fromImage(*image);
@@ -108,7 +96,6 @@ void Widget::dataPending(){
      label->setScaledContents(true);
      label->setPixmap(pixmap);
      //label->resize( image->size() );
-
 
 }
 

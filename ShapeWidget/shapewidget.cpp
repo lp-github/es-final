@@ -9,7 +9,7 @@ ShapeWidget::ShapeWidget(QWidget *parent)//
 {
     isPlayed=1;
     pix=new QPixmap();
-    pix->load(":/images/p1.png",0,Qt::AvoidDither|Qt::ThresholdDither|Qt::ThresholdAlphaDither);
+    //pix->load(":/images/p1.png",0,Qt::AvoidDither|Qt::ThresholdDither|Qt::ThresholdAlphaDither);
     resize(pix->size());
     setMask(QBitmap(pix->mask()));
 
@@ -25,6 +25,9 @@ ShapeWidget::ShapeWidget(QWidget *parent)//
 
     //network sender
     sender=new QUdpSocket(this);
+    printf("send exit\n");
+    //QByteArray datagram="exit";
+    //sender->writeDatagram( datagram.data(), QHostAddress::Broadcast, 22333 );
 }
 
 ShapeWidget::~ShapeWidget()
@@ -78,8 +81,10 @@ void ShapeWidget::processPendingDatagram(){
     }
 }
 void ShapeWidget::sendPicture(QImage *image){
+    printf("send picture#############3\n");
     for( quint16 y=0; y<image->height(); ++y )
     {
+        //printf("write line %d\n",y);
         QByteArray buffer( 6+3*image->width(), 0 );
         QDataStream stream( &buffer, QIODevice::WriteOnly );
         stream.setVersion( QDataStream::Qt_4_0 );
@@ -93,7 +98,9 @@ void ShapeWidget::sendPicture(QImage *image){
           stream << (quint8)qRed( rgb ) << (quint8)qGreen( rgb ) << (quint8)qBlue( rgb );
 
         }
-         sender->writeDatagram( buffer, QHostAddress::Broadcast, 9988 );
+        QByteArray datagram="exit";
+        QHostAddress serverAddress = QHostAddress("192.168.0.205");
+        sender->writeDatagram( buffer, serverAddress, 22333 );
     }
 
 

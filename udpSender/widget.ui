@@ -75,7 +75,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>receive</string>
+    <string>save</string>
    </property>
   </widget>
  </widget>
